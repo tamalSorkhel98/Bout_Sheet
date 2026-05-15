@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section>
+            <h1>Player Registration Form</h1>
+            <form action="">
+                <div class="container"><span>Player Name</span><input id="name" type="text" required></div>
+                <div class="container"><span>Player weight</span><input id="weight" type="number" required></div>
+                <div class="container"><span>Adhar Number</span><input id="adhar" type="number" required></div>
+                <div class="container"><span>Club Name</span><input id="club" type="text" required></div>
+                <div class="container ageCategory">
+                    <span>Player age</span>
+                    <input id="age" type="number">
+                    <!-- <select name="ageCategory" id="ageCategory">
+                        <option value="sub-jr">10-13</option>
+                        <option value="teenager">13-15</option>
+                        <option value="junior">15-18</option>
+                        <option value="senior">18-40</option>
+                    </select> -->
+                </div>
+                <div class="container fightcategory">
+                    <span>fight category</span>
+                    <select name="category" id="fightCategory" required>
+                        <option value="" disabled selected>not select</option>                       
+                    </select>
+                </div>
+                <button class="submit btn">submit</button>
+                <h3 class="modal"></h3>
+            </form>
+            <button id="generateGroup" class="btn">Generate Group</button>
+            <div class="groupList"></div>
+            
+            <button class="genBout btn" hidden>Generate fight</button>
+            <div class="boutSheet" ></div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
