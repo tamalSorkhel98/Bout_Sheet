@@ -24,11 +24,14 @@ const genBout = document.querySelector('.genBout');
 // it will displays boutsheet
 let boutSheet = document.querySelector('.boutSheet');
 
+
+
 //sbumit button clicked
 submitBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     // selecting all input values
     const name = document.querySelector('#name').value;
+    const gender = document.querySelector('#gender').value;
     const weight = document.querySelector('#weight').value;
     const age= document.querySelector('#age').value;
     const adhar = document.querySelector('#adhar').value;
@@ -48,6 +51,7 @@ submitBtn.addEventListener("click",(e)=>{
     //assigns all values inside player object
     let player = {
     name:name,
+    gender:gender,
     adhar:adhar,
     club:club,
     weight:weight,
@@ -59,7 +63,7 @@ submitBtn.addEventListener("click",(e)=>{
     players.push(player) ;  
 // it displays player details saved
 modal.innerText = `
-${player.name}, ${player.club}, ${player.ageCategory}, ${player.weight}, ${player.fightCategory} saved`;
+${player.name}, ${player.gender}, ${player.club}, ${player.ageCategory}, ${player.weight}, ${player.fightCategory} saved`;
 
     // saved in local storage
     localStorage.setItem("players",JSON.stringify(players));
@@ -137,7 +141,7 @@ generateGroup.addEventListener("click",(e)=>{
     players.forEach(p=>{
         // bout list heading
         // age category - wight category - fight category
-        let key = `${p.ageCategory} - ${p.weightCategory} - ${p.fightCategory}`;
+        let key = `${p.ageCategory} - ${p.weightCategory} - ${p.gender} - ${p.fightCategory}`;
         if(!group[key]){
             group[key]=[];
         }
@@ -160,14 +164,40 @@ function renderGroup(){
         grpContainer.appendChild(h);
         let arr = group[k];
         for(let val of arr){
+            let row = document.createElement('div');
+            row.classList.add('groupRow');
             let p1 = document.createElement('p');
-            p1.innerText = `${val.name}  ${val.age}yr - under ${val.ageCategory} wt - ${val.weight}kg  under -${val.weightCategory}kg  ${val.fightCategory}`
-            grpContainer.appendChild(p1); 
-            groupList.appendChild(grpContainer);         
+            p1.innerText = `${val.name} (${val.club.split(" ")[0]}) wt - ${val.weight}kg`
+            let removeBtn = document.createElement('button');//remove button to remove player from group
+            removeBtn.innerHTML=`<i class="ri-delete-bin-line"></i>`;
+            row.appendChild(p1); 
+            row.appendChild(removeBtn);
+            grpContainer.appendChild(row);
+            groupList.appendChild(grpContainer);  
+            // it will remove the player from group
+            removeBtn.addEventListener("click",()=>{
+                removePlayer(removeBtn,val)
+            })       
         }
+        
     }
     
 }
+// function for remove player from group
+function removePlayer(btn,val){
+    const isConfirm = confirm(`do u want to remove ${val.name}`)
+    if(!isConfirm) return;
+    // it removes player from registered player array
+ players=players.filter( p => val.adhar!=p.adhar);
+//  it will remove player from groups
+ for(let k in group){
+    group[k]=group[k].filter(key => key.adhar!=val.adhar);
+ }
+ localStorage.setItem("players",JSON.stringify(players));
+ renderGroup();
+}
+
+
 // it will generate boutSheet
 genBout.addEventListener("click",(e)=>{
     e.preventDefault();
@@ -179,6 +209,7 @@ genBout.addEventListener("click",(e)=>{
         h.innerText = `${key}`
         grpContainer.appendChild(h);
         let category = group[key];
+
          let bout = (findBout(category));
          for(let i=0;i<bout.length;i++){
         let p =document.createElement('p');
@@ -193,7 +224,8 @@ genBout.addEventListener("click",(e)=>{
     
 })
 // find bout sheet function
-function findBout(category){
+function findBout(newCategory){
+    let category = shuffle(newCategory);//it will suffle each group on every generateBoutsheet button click
     let bout = [];
     for(let i=0;i<category.length;i+=2){
         if(category[i+1])
@@ -202,4 +234,14 @@ function findBout(category){
     }
     
     return bout;
+}
+
+// suffling the boutSheet
+function shuffle(arr){
+    let newArr = [...arr];
+    for(let i=newArr.length-1;i>=0;i--){
+        let j = Math.floor(Math.random()*(i+1));
+        [newArr[i],newArr[j]]=[newArr[j],newArr[i]];
+    }
+    return newArr;
 }

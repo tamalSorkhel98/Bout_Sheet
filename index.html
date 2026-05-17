@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+  href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
@@ -12,6 +16,14 @@
             <h1>Player Registration Form</h1>
             <form action="">
                 <div class="container"><span>Player Name</span><input id="name" type="text" required></div>
+                <div class="container gender">
+                    <span>Gender</span>
+                    <select name="gender" id="gender" required>
+                        <option value="" disabled selected>not select</option> 
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>                      
+                    </select>
+                </div>
                 <div class="container"><span>Player weight</span><input id="weight" type="number" required></div>
                 <div class="container"><span>Adhar Number</span><input id="adhar" type="number" required></div>
                 <div class="container"><span>Club Name</span><input id="club" type="text" required></div>
@@ -32,8 +44,9 @@
                     </select>
                 </div>
                 <button class="submit btn">submit</button>
-                <h3 class="modal"></h3>
+                
             </form>
+            <h3 class="modal"></h3>
             <button id="generateGroup" class="btn">Generate Group</button>
             <div class="groupList"></div>
             
